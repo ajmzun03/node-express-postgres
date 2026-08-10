@@ -10,7 +10,16 @@ var corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Ruta del webhook de Stripe: necesita el body CRUDO (raw), no JSON parseado.
+// Por eso va ANTES de express.json() y con su propio middleware express.raw().
+app.post(
+  "/api/pago/webhook",
+  express.raw({ type: "application/json" }),
+  require("./app/controllers/pago.controller.js").webhook
+);
+
 // Parsear requests de tipo JSON y urlencoded nativos de Express
+// (esto aplica a TODAS las rutas declaradas después de esta línea)
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -22,7 +31,18 @@ app.get("/", (req, res) => {
   res.json({ message: "UMG Web Application" });
 });
 
+app.get("/pago-exitoso", (req, res) => {
+  res.json({ message: "¡Pago exitoso!", session_id: req.query.session_id });
+});
+
+app.get("/pago-cancelado", (req, res) => {
+  res.json({ message: "Pago cancelado por el usuario." });
+});
+
+
 require("./app/routes/cliente.route")(app);
+require("./app/routes/auth.route")(app);
+require("./app/routes/pago.route")(app); // resto de rutas de pago (crear-sesion, etc.) usan JSON normal
 
 // Set port, listen for requests
 const PORT = process.env.PORT || 8081;
