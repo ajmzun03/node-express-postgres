@@ -43,6 +43,7 @@ app.get("/pago-cancelado", (req, res) => {
 require("./app/routes/cliente.route")(app);
 require("./app/routes/auth.route")(app);
 require("./app/routes/pago.route")(app); // resto de rutas de pago (crear-sesion, etc.) usan JSON normal
+require("./app/routes/producto.route.js")(app);
 
 // Set port, listen for requests
 const PORT = process.env.PORT || 5173;
