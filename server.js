@@ -5,7 +5,7 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:8081"
+  origin: "http://localhost:5173"
 };
 
 app.use(cors(corsOptions));
@@ -45,7 +45,7 @@ require("./app/routes/auth.route")(app);
 require("./app/routes/pago.route")(app); // resto de rutas de pago (crear-sesion, etc.) usan JSON normal
 
 // Set port, listen for requests
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 5173;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
