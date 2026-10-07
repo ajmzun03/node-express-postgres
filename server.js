@@ -7,7 +7,7 @@ const app = express();
 // Orígenes permitidos para el frontend React
 const allowedOrigins = [
   "http://localhost:5173",
-  "http://localhost:5174"
+  "http://localhost:5174" //para que pueda funcionar con Vite (tutoReact1)
 ];
 
 const corsOptions = {
